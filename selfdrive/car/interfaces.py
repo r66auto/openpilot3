@@ -120,11 +120,11 @@ class CarInterfaceBase():
     #  events.add(EventName.doorOpen)
     #if cs_out.seatbeltUnlatched:
     #  events.add(EventName.seatbeltNotLatched)
-    if cs_out.gearShifter != GearShifter.drive and cs_out.gearShifter not in extra_gears and not (cs_out.gearShifter == GearShifter.unknown and self.gear_warning < int(0.5/DT_CTRL)):
-      if cs_out.gearShifter == GearShifter.park:
-        events.add(EventName.silentWrongGear)
-      else:
-        events.add(EventName.wrongGear)
+    #if cs_out.gearShifter != GearShifter.drive and cs_out.gearShifter not in extra_gears and not (cs_out.gearShifter == GearShifter.unknown and self.gear_warning < int(0.5/DT_CTRL)):
+    #  if cs_out.gearShifter == GearShifter.park:
+    #    events.add(EventName.silentWrongGear)
+    #  else:
+    #    events.add(EventName.wrongGear)
     if cs_out.gearShifter == GearShifter.reverse:
       events.add(EventName.reverseGear)
     if not cs_out.cruiseState.available:
@@ -147,16 +147,16 @@ class CarInterfaceBase():
     self.steering_unpressed = 0 if cs_out.steeringPressed else self.steering_unpressed + 1
 
     # Handle permanent and temporary steering faults
-    if cs_out.steerError:
-      events.add(EventName.steerUnavailable)
-    elif cs_out.steerWarning:
+    #if cs_out.steerError:
+    #  events.add(EventName.steerUnavailable)
+    #elif cs_out.steerWarning:
       # only escalate to the harsher alert after the condition has
       # persisted for 0.5s and we're certain that the user isn't overriding
-      if not cs_out.standstill and self.steering_unpressed > int(0.5 / DT_CTRL) and \
-         self.steer_warning > int(0.5 / DT_CTRL):
-        events.add(EventName.steerTempUnavailable)
-      else:
-        events.add(EventName.steerTempUnavailableSilent)
+    #  if not cs_out.standstill and self.steering_unpressed > int(0.5 / DT_CTRL) and \
+    #     self.steer_warning > int(0.5 / DT_CTRL):
+    #    events.add(EventName.steerTempUnavailable)
+    #  else:
+    #    events.add(EventName.steerTempUnavailableSilent)
 
     # Disable on rising edge of gas or brake. Also disable on brake when speed > 0.
     # Optionally allow to press gas at zero speed to resume.
